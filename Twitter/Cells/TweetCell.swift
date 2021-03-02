@@ -61,6 +61,7 @@ class TweetCell: UITableViewCell {
     @IBAction func retweetTweet(_ sender: Any) {
         let params = ["id": tweetId]
         let url = "https://api.twitter.com/1.1/statuses/retweet/\(tweetId).json"
+        let undoUrl = "https://api.twitter.com/1.1/statuses/unretweet/\(tweetId).json"
         let toBeRetweeted = !retweeted
         if (toBeRetweeted) {
             TwitterAPICaller.client?.post(url, parameters: params, progress: nil, success: {
@@ -71,11 +72,11 @@ class TweetCell: UITableViewCell {
         })
     }
         else {
-            TwitterAPICaller.client?.post(url, parameters: params, progress: nil, success: {
+            TwitterAPICaller.client?.post(undoUrl, parameters: params, progress: nil, success: {
                                             (task: URLSessionDataTask?, response: Any?) in
-                                            self.setFavorited(false)},
+                                            self.setRetweet(false)},
                                           failure: { (task: URLSessionDataTask?, Error) in
-                print("oh no!")
+                print("oh no! \(Error)")
         })
         }
     }
