@@ -82,6 +82,10 @@ class HomeTableViewController: UITableViewController {
         UserDefaults.standard.set(false, forKey: "userLoggedIn")
     }
     
+    
+    @IBAction func onTweet(_ sender: Any) {
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCell
         let user =  tweetsArray[indexPath.row]["user"] as! NSDictionary
@@ -94,7 +98,9 @@ class HomeTableViewController: UITableViewController {
         if let imageData = data {
             cell.profilePicture.image = UIImage(data: imageData)
         }
-        
+        cell.setFavorited(tweetsArray[indexPath.row]["favorited"] as! Bool)
+        cell.setRetweet(tweetsArray[indexPath.row]["retweeted"] as! Bool)
+        cell.tweetId = tweetsArray[indexPath.row]["id"] as! Int
         return cell
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
